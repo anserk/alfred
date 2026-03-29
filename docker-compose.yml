@@ -1,0 +1,52 @@
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: alfred-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+
+  frontend:
+    build: ./frontend
+    container_name: alfred-frontend
+    env_file: .env
+    volumes:
+      - ./frontend:/app  
+    command: npm run dev -- --host
+
+  backend:
+    build: ./backend
+    container_name: alfred-backend 
+    env_file: .env
+    volumes:
+      - ./backend:/app
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - .venv/
+        - action: rebuild
+          path: ./backend/pyproject.toml
+
+  postgres:
+    image: postgres:16
+    container_name: alfred-postgres 
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
