@@ -5,3 +5,7 @@ __pycache__/
 .git/
 *.log
 .env
+.venv
+__pycache__
+*.pyc
+.env

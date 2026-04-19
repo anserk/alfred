@@ -1,23 +1,19 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-alpine
+FROM python:3.11-slim
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Install uv package manager
 RUN pip install uv
 
-# Copy the pyproject.toml or other relevant dependency files
-COPY pyproject.toml ./
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 
-# Install dependencies using uv
-RUN uv sync --active
+USER appuser
 
-# Copy the rest of the backend application code
-COPY . .
+COPY --chown=appuser:appuser pyproject.toml uv.lock ./
+RUN uv sync --frozen && \
+    uv pip install --python .venv/bin/python setuptools && \
+    .venv/bin/python -c "import nltk; nltk.download('punkt_tab'); nltk.download('stopwords')"
 
-# Expose the port the app runs on (8000 is FastAPI's default port)
+COPY --chown=appuser:appuser . .
+
 EXPOSE 8000
-
-
-CMD ["uv", "run", "fastapi", "dev", "--port", "8000", "--host", "0.0.0.0"]
+CMD ["sh", "-c", ".venv/bin/alembic upgrade head && .venv/bin/fastapi dev --port 8000 --host 0.0.0.0"]
