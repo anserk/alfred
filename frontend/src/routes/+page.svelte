@@ -81,7 +81,7 @@
   onMount(() => scrollToBottom());
 </script>
 
-<div class="h-screen flex flex-col bg-gray-100">
+<div class="h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
   <!-- Chat -->
   <div class="flex-1 overflow-y-auto p-6 space-y-4 max-w-3xl w-full mx-auto">
     {#each chatHistory as msg}
@@ -90,7 +90,7 @@
       >
         <div
           class={`px-4 py-2 rounded-lg max-w-md whitespace-pre-wrap
-					${msg.role === "user" ? "bg-blue-500 text-white" : "bg-white border"}`}
+					${msg.role === "user" ? "bg-blue-500 text-white" : "bg-white dark:bg-gray-800 border dark:border-gray-700"}`}
         >
           {@html msg.content}
         </div>
@@ -98,15 +98,15 @@
     {/each}
 
     {#if isThinking}
-      <div class="text-sm text-gray-400">thinking...</div>
+      <div class="text-sm text-gray-400 dark:text-gray-500">thinking...</div>
     {/if}
   </div>
 
   <!-- Input -->
-  <div class="border-t bg-white p-4">
+  <div class="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
     <div class="max-w-3xl mx-auto flex gap-2">
       <input
-        class="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring"
+        class="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
         placeholder="Send a message..."
         bind:value={message}
         onkeydown={(e) => e.key === "Enter" && sendMessage()}
