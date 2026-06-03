@@ -103,7 +103,9 @@
   </div>
 
   <!-- Input -->
-  <div class="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
+  <div
+    class="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4"
+  >
     <div class="max-w-3xl mx-auto flex gap-2">
       <input
         class="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-500 dark:bg-gray-700 dark:text-white"

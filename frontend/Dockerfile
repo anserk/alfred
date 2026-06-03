@@ -1,4 +1,4 @@
-FROM node:25-slim
+FROM node:24-slim
 
 
 # Install pnpm globally
@@ -7,10 +7,10 @@ RUN npm install -g pnpm
 WORKDIR /app
 
 # Copy package files
-COPY package*.json pnpm-lock.yaml ./
+COPY package*.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 
 # Install dependencies
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 # Copy source code
 COPY . .
@@ -19,4 +19,4 @@ COPY . .
 EXPOSE 5173
 
 # Start dev server
-CMD ["pnpm", "run", "dev"]
+CMD ["pnpm", "run", "dev", "--", "--host", "0.0.0.0"]/

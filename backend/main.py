@@ -1,20 +1,17 @@
 # from models import ModelListResponse, RunningResponse
 from typing import Optional, List, Any
 from models.message import Message
-import re
 from repositories.message_repository import MessageRepository
 from dependencies import get_message_repo
-import requests
 
 # import uuid
 import json
 # import argparse
 
 import logging
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from fastapi.middleware.cors import CORSMiddleware
 import asyncpg
 from alembic.config import Config
 from contextlib import asynccontextmanager
@@ -29,7 +26,7 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-BASE_URL = "http://192.168.1.154:11435/v1/chat/completions"
+BASE_URL = os.environ["BASE_URL"]
 
 
 @asynccontextmanager
