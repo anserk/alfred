@@ -10,6 +10,9 @@ services:
     depends_on:
       - frontend
       - backend
+    networks:
+      - homelab
+      - default
 
   frontend:
     build: ./frontend
@@ -18,7 +21,9 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    command: pnpm run dev -- --host
+    command: sh -c "pnpm install && pnpm run dev -- --host"
+    networks:
+      - default
 
   backend:
     build: ./backend
@@ -30,6 +35,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - default
 
   postgres:
     image: postgres:16
@@ -44,6 +51,12 @@ services:
       retries: 5
     ports:
       - "5432:5432"
+    networks:
+      - default
 
 volumes:
   postgres_data:
+
+networks:
+  homelab:
+    external: true

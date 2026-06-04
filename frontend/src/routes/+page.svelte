@@ -1,5 +1,7 @@
 <script lang="ts">
   import { tick, onMount } from "svelte";
+  import toast, { Toaster } from "svelte-french-toast";
+  import SvelteMarkdown from "@humanspeak/svelte-markdown";
 
   let message = $state("");
   let chatHistory = $state<{ role: "user" | "assistant"; content: string }[]>(
@@ -63,7 +65,6 @@
         if (isThinking) {
           isThinking = false;
         }
-
         chatHistory = chatHistory.map((msg, i) =>
           i === assistantIndex ? { ...msg, content: msg.content + chunk } : msg,
         );
@@ -71,7 +72,8 @@
         await scrollToBottom("instant");
       }
     } catch (err) {
-      console.error(err);
+      chatHistory = chatHistory.filter((msg) => msg.content.length > 0);
+      toast.error("Unable to parse response from the server.");
     } finally {
       isLoading = false;
       isThinking = false;
@@ -92,7 +94,7 @@
           class={`px-4 py-2 rounded-lg max-w-md whitespace-pre-wrap
 					${msg.role === "user" ? "bg-blue-500 text-white" : "bg-white dark:bg-gray-800 border dark:border-gray-700"}`}
         >
-          {@html msg.content}
+          <SvelteMarkdown source={msg.content} />
         </div>
       </div>
     {/each}
@@ -125,3 +127,4 @@
     </div>
   </div>
 </div>
+<Toaster />
