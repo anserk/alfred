@@ -33,6 +33,7 @@
 	"dependencies": {
 		"@humanspeak/svelte-markdown": "^1.5.4",
 		"@lucide/svelte": "^1.3.0",
+		"clsx": "^2.1.1",
 		"svelte-french-toast": "^1.2.0"
 	}
 }
