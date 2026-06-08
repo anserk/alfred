@@ -1,3 +1,4 @@
+import json
 from services.chat import ChatService
 from dependencies import get_chat_service, get_title_queue
 from fastapi import Depends, APIRouter
@@ -39,12 +40,12 @@ async def get_title(
 ):
     yield ServerSentEvent(
         event="title.updated",
-        data={"title": "Welcome to Alfred"},
+        data=json.dumps({"title": "Welcome to Alfred"}),
     )
 
     while True:
         title = await title_queue.get()
         yield ServerSentEvent(
             event="title.updated",
-            data={"title": title},
+            data=json.dumps({"title": title}),
         )

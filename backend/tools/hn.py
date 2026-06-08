@@ -19,14 +19,17 @@ async def fetch_hn_digest(limit: int = 10) -> str:
             )
             r.raise_for_status()
             story = r.json()
-            stories.append(
-                {
-                    "title": story.get("title"),
-                    "url": story.get("url", ""),
-                    "score": story.get("score", 0),
-                    "comments": story.get("descendants", 0),
-                }
-            )
+            title = story.get("title", "")
+            url = story.get("url", "")
+            if title and url:
+                stories.append(
+                    {
+                        "title": story.get("title", ""),
+                        "url": story.get("url", ""),
+                        "score": story.get("score", 0),
+                        "comments": story.get("descendants", 0),
+                    }
+                )
 
     lines = [
         f"- {s['title']} (score: {s['score']}, comments: {s['comments']}) {s['url']}"
