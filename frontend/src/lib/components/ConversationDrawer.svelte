@@ -1,12 +1,20 @@
 <script lang="ts">
   import { X, Sun, Moon } from "@lucide/svelte";
   import { appState } from "../../routes/state.svelte";
+  import { getTopicsAsync, type TopicDtoList } from "$lib/api/chat";
+  import { onMount } from "svelte";
 
   function toggleTheme() {
     appState.isDark = !appState.isDark;
     document.documentElement.classList.toggle("dark", appState.isDark);
     localStorage.setItem("theme", appState.isDark ? "dark" : "light");
   }
+
+  let topics = $state<TopicDtoList>([]);
+
+  onMount(async () => {
+    topics = await getTopicsAsync();
+  });
 </script>
 
 <aside
@@ -37,5 +45,9 @@
       <X />
     </button>
   </div>
-  <div class="p-4 bg-background flex"></div>
+  <div class="p-4 bg-background flex">
+    <ul>
+      {#each topics as topic}<li>{topic.title}</li>{/each}
+    </ul>
+  </div>
 </aside>

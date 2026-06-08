@@ -4,6 +4,7 @@
   import ConversationMessageList from "$lib/components/ConversationMessageList.svelte";
   import ConversationInput from "$lib/components/ConversationInput.svelte";
   import ConversationDrawer from "$lib/components/ConversationDrawer.svelte";
+  import { postMessageAsync } from "$lib/api/chat";
 
   let chatHistory = $state<{ role: "user" | "assistant"; content: string }[]>(
     [],
@@ -22,16 +23,7 @@
     chatHistory = [...chatHistory, { role: "assistant", content: "" }];
 
     try {
-      const res = await fetch("/api/chat/stream", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: userMessage }),
-      });
-
-      if (!res.ok || !res.body) throw new Error("Stream unavailable");
-      const reader = res.body.getReader();
+      const reader = await postMessageAsync(userMessage);
       const decoder = new TextDecoder();
 
       while (true) {

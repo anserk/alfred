@@ -20,6 +20,9 @@ importers:
       svelte-french-toast:
         specifier: ^1.2.0
         version: 1.2.0(svelte@5.53.12)
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^7.0.0
@@ -1096,6 +1099,9 @@ packages:
   zimmerframe@1.1.4:
     resolution: {integrity: sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ==}
 
+  zod@4.4.3:
+    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
+
 snapshots:
 
   '@blazediff/core@1.9.1': {}
@@ -1900,3 +1906,5 @@ snapshots:
   ws@8.19.0: {}
 
   zimmerframe@1.1.4: {}
+
+  zod@4.4.3: {}
