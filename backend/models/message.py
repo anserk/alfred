@@ -5,7 +5,7 @@ from uuid import UUID
 
 class Message(BaseModel):
     id: UUID
-    conversation_id: UUID
+    topic_id: UUID
     role: str
     content: str
     created_at: datetime

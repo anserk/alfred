@@ -33,7 +33,7 @@ TOOLS = [
                         "description": "url to summarize",
                     }
                 },
-                "required": [],
+                "required": ["url"],
             },
         },
     },

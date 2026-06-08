@@ -1,4 +1,3 @@
-from asyncpg.pgproto.pgproto import UUID
 import uuid
 import asyncpg
 from queries import message_queries as q
@@ -16,11 +15,9 @@ class MessageRepository:
         rows = await self._conn.fetch(q.LIST_ALL, 1000)
         return [Message.model_validate(dict(row)) for row in rows]
 
-    async def add(self, conversation_id: str, role: str, content: str) -> None:
+    async def add(self, topic_id: str, role: str, content: str) -> None:
         """
         Save a new message into a conversation.
         """
-        await self._conn.execute(
-            q.INSERT_NEW, uuid.UUID(conversation_id), role, content
-        )
+        await self._conn.execute(q.INSERT_NEW, uuid.UUID(topic_id), role, content)
         return

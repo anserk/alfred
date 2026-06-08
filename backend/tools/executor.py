@@ -10,9 +10,15 @@ async def execute_tool(name: str, inputs: dict) -> str:
 
     match name:
         case "get_hn_digest":
-            return await fetch_hn_digest(inputs.get("limit", 10))
+            limit = inputs.get("limit")
+            if not isinstance(limit, int):
+                limit = 10
+            return await fetch_hn_digest(limit=limit)
         case "summarize_url":
-            return await summarize_url(url=inputs.get("url"))
+            url = inputs.get("url")
+            if not isinstance(url, str):
+                return "Error: summarize_url requires a url"
+            return await summarize_url(url=url)
 
         case _:
             logger.warning("Unknown tool: %s", name)
