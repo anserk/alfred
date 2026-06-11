@@ -2,7 +2,6 @@ from __future__ import absolute_import
 from __future__ import division, print_function, unicode_literals
 
 from httpx import URL
-import string
 import httpx
 import logging
 from sumy.parsers.plaintext import PlaintextParser
@@ -20,9 +19,7 @@ SENTENCES_COUNT = 10
 async def summarize_url(url: URL | str):
     logger.info("Summary for %s...", url)
 
-    headers = {
-        "User-Agent": "alfred/1.0"
-    }
+    headers = {"User-Agent": "alfred/1.0"}
 
     async with httpx.AsyncClient(headers=headers) as client:
         response = await client.get(str(url))
@@ -40,7 +37,5 @@ async def summarize_url(url: URL | str):
     for sentence in summarizer(parser.document, SENTENCES_COUNT):
         logger.info(sentence)
         lines.append(str(sentence))
-
-
 
     return "\n".join(lines)
